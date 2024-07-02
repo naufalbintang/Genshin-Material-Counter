@@ -1,148 +1,170 @@
 import os
-list_jenis_item: list[str] = ['Hijau', 'Biru', 'Ungu', 'Emas']
+list_jenis_item: list[str] = ['Keluar', 'Hijau', 'Biru', 'Ungu', 'Emas']
 
-def fungsi_jumlah_item_dibutuhkan() -> int:
+def fungsi_input_pilihan() -> int:
     while True:
-        jumlah_item_dibutuhkan: int = input('Masukkan jumlah item yang dibutuhkan: ')
-        if jumlah_item_dibutuhkan.isdigit():
-            jumlah_item_dibutuhkan: int = int(jumlah_item_dibutuhkan)
-            if jumlah_item_dibutuhkan > 0:
+        # mengambil input_pilihan dari user
+        input_pilihan: int = input('\n Masukkan pilihan: ')
+        # verifikasi apakah input merupakan input_pilihan >= 0
+        if input_pilihan.isdigit():
+            # jika True, maka konversi input_pilihan menjadi int 
+            input_pilihan: int = int(input_pilihan)
+            # verifikasi apakah input_pilihan < dari pilihan yang tersedia
+            if input_pilihan < len(list_jenis_item):
                 break
             else:
-                print('Masukkan angka lebih dari 0.')
+                # jika input_pilihan tidak < pilihan tersedia
+                print(f' Tolong masukkan angka antara 0 - {len(list_jenis_item)}')
         else:
-            print('Masukkan angka lebih dari 0.') 
-    return jumlah_item_dibutuhkan
+            # jika input_pilihan bukan merupakan angka >= 0 
+            print(f' Tolong masukkan angka antara 0 - {len(list_jenis_item)}')
+    return input_pilihan
 
-def fungsi_jumlah_item_dimiliki() -> int:
+def fungsi_input_jenis_item(pesan: str) -> int:
     while True:
-        jumlah_item_dimiliki: int = input('Masukkan jumlah item yang dimiliki: ')
-        if jumlah_item_dimiliki.isdigit():
-            jumlah_item_dimiliki: int = int(jumlah_item_dimiliki)
-            if jumlah_item_dimiliki > 0:
-                break
+        # mengambil input_pilihan dari user
+        input_hijau: int = input(f'{pesan}')
+        # verifikasi apakah input_hijau adalah angka >= 0
+        if input_hijau.isdigit():
+            # jika True, maka konversi input_hijau menjadi int
+            input_hijau: int = int(input_hijau)
+            break
+        else:
+            # jika input_hijau bukan merupakan angka >= 0
+            print('Tolong masukkan angka > 0.')
+    return input_hijau
+
+def fungsi_main() -> None:
+    while True:
+        os.system('cls')
+        print('\n',20 * '=', 'Material Calculator', 20 * '=')
+        print('\n Masukkan pilihan sesuai dengan jenis item yang kamu butuhkan.\n')
+
+        # menampilkan macam pilihan jenis item yang tersedia
+        for nomor, jenis_item in enumerate(list_jenis_item):
+            print(f' {nomor}. {jenis_item}')
+
+        # meminta user memilih antara pilihan diatas
+        input_pilihan: int = fungsi_input_pilihan()
+
+        # keluar
+        if input_pilihan == 0:
+            # keluar dari loop
+            break
+        
+        # hijau
+        elif input_pilihan == 1:
+            # mengambil informasi tentang jumlah item hijau yang dimiliki user
+            hijau_dimiliki: int = fungsi_input_jenis_item('\n Berapa item hijau yang kamu miliki? ')
+            # mengambil informasi tentang jumlah item hijau yang dibutuhkan user
+            hijau_dibutuhkan: int = fungsi_input_jenis_item(' Berapa item hijau yang kamu butuhkan? ')
+            # verifikasi apakah jumlah item hijau yang dimiliki lebih sedikit dari jumlah item hijau yang dibutuhkan
+            if hijau_dimiliki < hijau_dibutuhkan:
+                # update jumlah item hijau yang dibutuhkan user setelah dikurangi dengan jumlah item hijau yang sudah dimiliki user
+                hijau_dibutuhkan -= hijau_dimiliki
+                print(f' Dibutuhkan {hijau_dibutuhkan} item hijau.')
+            # jika jumlah item hijau yang sudah dimiliki user lebih sedikit dari jumlah item hijau yang dibutuhkan user 
             else:
-                print('Masukkan angka lebih dari 0.')
-        else:
-            print('Masukkan angka lebih dari 0.') 
-    return jumlah_item_dimiliki
+                # jika hasil verifikasi adalah jumlah item hijau yang sudah dimiliki user sama dengan atau lebih dari jumlah item hijau yang dibutuhkan user
+                print(' Jumlah item sudah cukup.')
 
-def fungsi_jenis_item_dibutuhkan() -> int:
-    while True:
-        jenis_item_dibutuhkan: int = input('Masukkan pilihan: ')
-        if jenis_item_dibutuhkan.isdigit():
-            jenis_item_dibutuhkan: int = int(jenis_item_dibutuhkan)
-            if 0 < jenis_item_dibutuhkan < len(list_jenis_item):
-                break
+        # biru
+        elif input_pilihan == 2:
+            # mengambil informasi tentang jumlah item biru yang sudah dimiliki user
+            biru_dimiliki: int = fungsi_input_jenis_item('\n Berapa jumlah item biru yang kamu miliki? ')
+            # mengambil informasi tentang jumlah item hijau yang sudah dimiliki user
+            hijau_dimiliki: int = fungsi_input_jenis_item(' Berapa jumlah item hijau yang kamu miliki? ')
+            # mengambil informasi tentang jumlah item biru yang dibutuhkan user
+            biru_dibutuhkan: int = fungsi_input_jenis_item(' Berapa jumlah item biru yang kamu butuhkan? ')
+            # update jumlah item hijau yang sudah dimiliki user setelah ditambah hasil konversi dari jumlah item biru
+            hijau_dimiliki: int = (biru_dimiliki * 3) + hijau_dimiliki
+            # menghitung jumlah item hijau yang dibutuhkan user setelah mengonversi input jumlah item biru yang sudah dimiliki user 
+            hijau_dibutuhkan: int = biru_dibutuhkan * 3
+            # verifikasi apakah jumlah item hijau yang sudah dimiliki user lebih sedikit dari jumlah item hijau yang dibutuhkan user
+            if hijau_dimiliki < hijau_dibutuhkan:
+                # update jumlah item hijau yang dibutuhkan user setelah dikurangi dengan jumlah item hijau yang sudah dimiliki user 
+                hijau_dibutuhkan -= hijau_dimiliki 
+                # update jumlah item biru yang dibutuhkan user dengan mengambil int dari hasil bagi jumlah item hijau yang dibutuhkan user dengan 3
+                biru_dibutuhkan: int = hijau_dibutuhkan // 3
+                # update jumlah item hijau yang dibutuhkan setelah dilakukan operasi modulo dengan 3
+                hijau_dibutuhkan %= 3
+                print(f' Dibutuhkan {biru_dibutuhkan} item biru ({biru_dibutuhkan * 3} item hijau) dan {hijau_dibutuhkan} jumlah item hijau.')
+            # jika hasil verifikasi adalah jumlah item hijau yang sudah dimiliki user sama dengan atau lebih dari jumlah item hijau yang dibutuhkan user
             else:
-                print(f'Masukkan angka antara 1 - {len(list_jenis_item)}')
-        else:
-            print(f'Masukkan angka antara 1 - {len(list_jenis_item)}')
-    return jenis_item_dibutuhkan
-def fungsi_hijau_dimiliki() -> int:
-    while True:
-        hijau_dimiliki: int = input('Masukkan jumlah item HIJAU yang dimiliki: ')
-        if hijau_dimiliki.isdigit():
-            hijau_dimiliki: int = int(hijau_dimiliki)
+                print(' Jumlah item sudah cukup.')
+            
+        # ungu
+        elif input_pilihan == 3:
+            # mengambil informasi tentang jumlah item ungu yang sudah dimiliki user
+            ungu_dimiliki: int = fungsi_input_jenis_item('\n Berapa jumlah item ungu yang kamu miliki? ')
+            # mengambil informasi tentang jumlah item biru yang sudah dimiliki user 
+            biru_dimiliki: int = fungsi_input_jenis_item(' Berapa jumlah item biru yang kamu miliki? ') 
+            # mengambil informasi tentang jumlah item hijau yang sudah dimiliki user 
+            hijau_dimiliki: int = fungsi_input_jenis_item(' Berapa jumlah item hijau yang kamu miliki? ') 
+            # mengambil informasi tentang jumlah item ungu yang dibutuhkan user 
+            ungu_dibutuhkan: int = fungsi_input_jenis_item(' Berapa jumlah item ungu yang kamu butuhkan? ') 
+            # update jumlah item hijau yang sudah dimiliki user setelah mengonversi jumlah item ungu dan biru lalu ditambah dengan jumlah item hijau yang sudah dimiliki user
+            hijau_dimiliki: int = (ungu_dimiliki * 9) + (biru_dimiliki * 3) + hijau_dimiliki
+            # menghitung jumlah item hijau yang dibutuhkan user setelah mengonversi jumlah item ungu yang dibutuhkan user
+            hijau_dibutuhkan: int = ungu_dibutuhkan * 9 
+            # verifikasi apakah jumlah item hijau yang sudah dimiliki user lebih sedikit dari jumlah item hijau yang dibutuhkan user
+            if hijau_dimiliki < hijau_dibutuhkan: 
+                # update jumlah item hijau yang dibutuhkan user setelah dikurangi dengan jumlah item hijau yang sudah dimiliki user
+                hijau_dibutuhkan -= hijau_dimiliki 
+                # update jumlah item ungu yang dibutuhkan user dengan mengambil int dari hasil bagi jumlah item hijau yang dibutuhkan user dengan 9
+                ungu_dibutuhkan: int = hijau_dibutuhkan // 9 
+                # update jumlah item hijau yang dibutuhkan user setelah dilakukan operasi modulo dengan 9
+                hijau_dibutuhkan %= 9 
+                print(f' Dibutuhkan {ungu_dibutuhkan} item ungu ({ungu_dibutuhkan * 3} item biru atau {ungu_dibutuhkan * 9} item hijau) dan {hijau_dibutuhkan} item hijau.')
+            # jika hasil verifikasi adalah jumlah item hijau yang sudah dimiliki user sama dengan atau lebih dari jumlah item hijau yang dibutuhkan user
+            else:
+                print(' Jumlah item sudah cukup.') 
+            
+        # emas
+        elif input_pilihan == 4:
+            # mengambil informasi tentang jumlah item emas yang sudah dimiliki user
+            emas_dimiliki: int = fungsi_input_jenis_item('\n Berapa jumlah item emas yang kamu miliki? ')
+            # mengambil informasi tentang jumlah item ungu yang sudah dimiliki user
+            ungu_dimiliki: int = fungsi_input_jenis_item(' Berapa jumlah item ungu yang kamu miliki? ')
+            # mengambil informasi tentang jumlah item biru yang sudah dimiliki user
+            biru_dimiliki: int = fungsi_input_jenis_item(' Berapa jumlah item biru yang kamu miliki? ') 
+            # mengambil informasi tentang jumlah item hijau yang sudah dimiliki user
+            hijau_dimiliki: int = fungsi_input_jenis_item(' Berapa jumlah item hijau yang kamu miliki? ')
+            # mengambil informasi tentang jumlah item emas yang dibutuhkan user
+            emas_dibutuhkan: int = fungsi_input_jenis_item(' Berapa jumlah item emas yang kamu butuhkan? ')
+            # update item hijau yang sudah dimiliki user setelah mengonversi item emas, ungu, dan biru yang sudah dimiliki user ditambah dengan item hijau yang sudah dimiliki user
+            hijau_dimiliki: int = (emas_dimiliki * 27) + (ungu_dimiliki * 9) + (biru_dimiliki * 3) + hijau_dimiliki
+            # menghitung jumlah item hijau yang dibutuhkan user setelah mengonversi jumlah item ungu yang dibutuhkan user
+            hijau_dibutuhkan: int = emas_dibutuhkan * 27
+            # verifikasi apakah jumlah item hijau yang sudah dimiliki user lebih sedikit dari jumlah item hijau yang dibutuhkan user
+            if hijau_dimiliki < hijau_dibutuhkan:
+                # update jumlah item hijau yang dibutuhkan user setelah dikurangi dengan jumlah item hijau yang sudah dimiliki user
+                hijau_dibutuhkan -= hijau_dimiliki
+                # update jumlah item ungu yang dibutuhkan user dengan mengambil int dari hasil bagi jumlah item hijau yang dibutuhkan user dengan 9
+                emas_dibutuhkan: int = hijau_dibutuhkan // 27
+                # update jumlah item hijau yang dibutuhkan user setelah dilakukan operasi modulo dengan 27
+                hijau_dibutuhkan %= 27
+                print(f' Dibutuhkan {emas_dibutuhkan} item emas ({emas_dibutuhkan * 3} item ungu atau {emas_dibutuhkan * 9} item biru atau {emas_dibutuhkan * 27} item hijau) dan {hijau_dibutuhkan} item hijau.')
+            else:
+                print(' Jumlah item sudah cukup.')
+
+
+
+
+
+
+        # break
+        is_done: str = input('\n Apakah sudah selesai (y/n)? ')
+        if is_done == 'y':
             break
         else:
-            print('Masukkan bilangan lebih dari 0.')
-    return hijau_dimiliki
-
-def fungsi_biru_dimiliki() -> int:
-    while True:
-        biru_dimiliki: int = input('Masukkan jumlah item BIRU yang dimiliki: ')
-        if biru_dimiliki.isdigit():
-            biru_dimiliki: int = int(biru_dimiliki)
-            break
-        else:
-            print('Masukkan bilangan lebih dari 0.')
-    return biru_dimiliki
-
-def fungsi_ungu_dimiliki() -> int:
-    while True:
-        ungu_dimiliki: int = input('Masukkan jumlah item UNGU yang dimiliki: ')
-        if ungu_dimiliki.isdigit():
-            ungu_dimiliki: int = int(ungu_dimiliki)
-            break
-        else:
-            print('Masukkan bilangan lebih dari 0.')
-    return ungu_dimiliki
-
-def fungsi_emas_dimiliki() -> int:
-    while True:
-        emas_dimiliki: int = input('Masukkan jumlah item EMAS yang dimiliki: ')
-        if emas_dimiliki.isdigit():
-            emas_dimiliki: int = int(emas_dimiliki)
-            break
-        else:
-            print('Masukkan bilangan lebih dari 0.')
-    return emas_dimiliki
-
-def main():
-    os.system('cls')
-    print('\n', 20 * '=', 'Genshin Material Calculator', 20 * '=', '\n')
-    for nomor, jenis_item in enumerate(list_jenis_item, 1):
-        print(f'{nomor}. {jenis_item}')
-    print(' ')
-    jenis_item_dibutuhkan: str = fungsi_jenis_item_dibutuhkan()
-    jumlah_item_dibutuhkan: int = fungsi_jumlah_item_dibutuhkan()
-    
-    # hijau
-    if jenis_item_dibutuhkan == 1:
-        hijau_dimiliki: int = fungsi_hijau_dimiliki()
-        hijau_dibutuhkan: int = jumlah_item_dibutuhkan - hijau_dimiliki
-        print(f'Dibutuhkan\n{hijau_dibutuhkan} item hijau.')
-
-    # biru
-    elif jenis_item_dibutuhkan == 2:
-        biru_dimiliki: int = fungsi_biru_dimiliki()
-        hijau_dimiliki: int = fungsi_hijau_dimiliki()
-        biru_dibutuhkan: int = jumlah_item_dibutuhkan - biru_dimiliki
-        hijau_dibutuhkan: int = biru_dibutuhkan * 3 - hijau_dimiliki
-        print(f'Dibutuhkan\n{hijau_dibutuhkan} item HIJAU\nuntuk mendapatkan {biru_dibutuhkan} item BIRU ({biru_dimiliki} item biru sudah dimiliki).')
-     
-    # ungu       
-    elif jenis_item_dibutuhkan == 3: 
-        ungu_dimiliki: int = fungsi_ungu_dimiliki()
-        biru_dimiliki: int = fungsi_biru_dimiliki()
-        hijau_dimiliki: int = fungsi_hijau_dimiliki()
-        ungu_dibutuhkan: int = jumlah_item_dibutuhkan - ungu_dimiliki
-        biru_dibutuhkan: int = ungu_dibutuhkan * 3 - biru_dimiliki
-        hijau_dibutuhkan: int = biru_dibutuhkan * 3 - hijau_dimiliki
-        if hijau_dibutuhkan >= 0 and hijau_dibutuhkan >= 0:
-            print('Item sudah cukup.')
-        else:
-            print(f'Dibutuhkan\n{hijau_dibutuhkan} item HIJAU\natau\n{biru_dibutuhkan} item BIRU\nuntuk mendapatkan {ungu_dibutuhkan} item UNGU ({ungu_dimiliki} item ungu sudah dimiliki).')
-
-    # emas
-    elif jenis_item_dibutuhkan == 4:
-        emas_dimiliki: int = fungsi_emas_dimiliki()
-        ungu_dimiliki: int = fungsi_ungu_dimiliki()
-        biru_dimiliki: int = fungsi_biru_dimiliki()
-        hijau_dimiliki: int = fungsi_hijau_dimiliki()
-        emas_dibutuhkan: int = jumlah_item_dibutuhkan - emas_dimiliki
-        ungu_dibutuhkan: int = emas_dibutuhkan * 3 - ungu_dimiliki
-        biru_dibutuhkan: int = ungu_dibutuhkan * 3 - biru_dimiliki
-        hijau_dibutuhkan: int = biru_dibutuhkan * 3 - hijau_dimiliki
-        print(f'Dibutuhkan\n{hijau_dibutuhkan} item HIJAU\natau\n{biru_dibutuhkan} item BIRU\natau\n{ungu_dibutuhkan} item UNGU\nuntuk mendapatkan {emas_dibutuhkan} item EMAS ({emas_dimiliki} item emas sudah dimiliki).')
-
-    else:
-        print('Input tidak valid.')
+            pass
+        
 
 # main program
 if __name__ == '__main__':
-    while True:
-        main()
-
-        # break
-        is_done:str = input('Apakah sudah selesai (y/n)? ')
-        if is_done == 'y':
-            break
-        elif is_done == 'n':
-            pass
-        else:
-            print('Input tidak valid. Menghentikan program...')
+    print('')
+    fungsi_main()
 
 
 
@@ -190,18 +212,4 @@ if __name__ == '__main__':
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
